@@ -1,0 +1,27 @@
+_target_: src.cameras.base.MultiCameraBase
+
+serial1: "023322060111" # left
+serial2: "013422060628" # right
+
+cameras:
+  - _target_: src.cameras.realsense.RealSenseRGBDCamera
+    serial: ${camera.serial1}
+    shm_name_rgb: color
+    shm_name_depth: depth
+    resolution: [1280, 720]
+    frame_rate: 30
+    align: true
+    depth_scale: 1000.0
+  - _target_: src.cameras.realsense.RealSenseRGBDCamera
+    serial: ${camera.serial2}
+    shm_name_rgb: color
+    shm_name_depth: depth
+    resolution: [1280, 720]
+    frame_rate: 30
+    align: true
+    depth_scale: 1000.0
+
+shm_manager:
+  names: ["${camera.serial1}_color", "${camera.serial1}_depth", "${camera.serial2}_color", "${camera.serial2}_depth"]
+  shapes: [[720, 1280, 3], [720, 1280], [720, 1280, 3], [720, 1280]]
+  dtypes: ["uint8", "float", "uint8", "float"]

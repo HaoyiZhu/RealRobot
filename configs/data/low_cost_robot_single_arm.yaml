@@ -1,0 +1,40 @@
+_target_: src.data.base_datamodule.BaseDataModule
+
+batch_size_train: 16  # per gpu
+batch_size_val: 16  # per gpu
+batch_size_test: 1
+num_workers: 16
+pin_memory: true
+train:
+  _target_: src.data.components.low_cost_robot.LowCostRobotSingleArmRGBDDataset
+  split: train
+  root: data/teleop
+  task_name: ${task_name}
+  user_name: ${user_name}
+  leader_key: leader
+  follower_key: follower
+  camera_serials:
+    - "023322060111"
+    - "013422060628"
+  include_depth: false
+  chunk_size: 20
+  eps: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+  loop: 1
+  crop_info:
+    "013422060628": [50, 650, 550, 1250]
+    "023322060111": [0, 600, 500, 1200]
+
+val:
+  _target_: src.data.components.low_cost_robot.LowCostRobotSingleArmRGBDDataset
+  split: val
+  root: ${data.train.root}
+  task_name: ${task_name}
+  user_name: ${user_name}
+  leader_key: leader
+  follower_key: follower
+  camera_serials: ${data.train.camera_serials}
+  include_depth: ${data.train.include_depth}
+  chunk_size: ${data.train.chunk_size}
+  eps: [0, 10, 20, 30, 40]
+  loop: 1
+  crop_info: ${data.train.crop_info}

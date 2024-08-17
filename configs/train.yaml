@@ -1,0 +1,50 @@
+# @package _global_
+
+# specify here default configuration
+# order of defaults determines the order in which configs override each other
+defaults:
+  - _self_
+  - data:
+  - model:
+  - callbacks: default
+  - logger: tensorboard # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
+  - trainer: ddp
+  - paths: default
+  - extras: default
+  - hydra: default
+  - exp_low_cost_robot: base_rgb
+
+    # optional local config for machine/user specific settings
+    # it's optional since it doesn't need to exist and is excluded from version control
+  - optional local: default
+
+    # debugging config (enable through command line, e.g. `python train.py debug=default)
+  - debug:
+
+
+# tags to help you identify your experiments
+# you can overwrite this in experiment configs
+# overwrite from command line with `python train.py tags="[first_tag, second_tag]"`
+tag: train
+tags:
+  - ${tag}
+
+task_name: reach_cube
+user_name: default
+exp_name: default
+
+# set False to skip model training
+train: true
+
+# evaluate on test set, using best model weights achieved during training
+# lightning chooses best weights based on the metric specified in checkpoint callback
+test: false
+
+# compile model for faster training with pytorch 2.0
+compile: false
+
+# simply provide checkpoint path to resume training
+ckpt_path:
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: 1000

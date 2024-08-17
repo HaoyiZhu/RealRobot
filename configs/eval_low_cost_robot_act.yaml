@@ -1,0 +1,64 @@
+# @package _global_
+
+# specify here default configuration
+# order of defaults determines the order in which configs override each other
+defaults:
+  - _self_
+  - data:
+  - model:
+  - hydra: default
+  - callbacks: default
+  - logger: tensorboard # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
+  - trainer: ddp
+  - paths: default
+  - extras: default
+  - camera: realsense
+  - robot: low_cost_robot_single_arm
+  - exp_low_cost_robot: base_rgb
+
+    # optional local config for machine/user specific settings
+    # it's optional since it doesn't need to exist and is excluded from version control
+  - optional local: default
+
+    # debugging config (enable through command line, e.g. `python train.py debug=default)
+  - debug:
+
+  - override /hydra: default
+
+
+# tags to help you identify your experiments
+# you can overwrite this in experiment configs
+# overwrite from command line with `python train.py tags="[first_tag, second_tag]"`
+tag: eval
+tags:
+  - ${tag}
+
+task_name: reach_cube
+user_name: default
+exp_name: default
+episode_id: 0
+
+# set False to skip model training
+train: true
+
+# evaluate on test set, using best model weights achieved during training
+# lightning chooses best weights based on the metric specified in checkpoint callback
+test: false
+
+# compile model for faster training with pytorch 2.0
+compile: false
+
+# simply provide checkpoint path to resume training
+ckpt_path:
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: 1000
+
+
+# eval params
+norm_stats_file: ${data.train.root}/${data.train.task_name}/${data.train.user_name}/stats.npy
+max_timesteps: 250
+temporal_agg: true
+frame_rate: 30
+num_rollouts: 5
+save_video: true

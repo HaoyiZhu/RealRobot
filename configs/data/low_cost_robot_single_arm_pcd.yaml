@@ -1,0 +1,83 @@
+_target_: src.data.base_datamodule.BaseDataModule
+
+batch_size_train: 16  # per gpu
+batch_size_val: 16  # per gpu
+batch_size_test: 1
+num_workers: 16
+pin_memory: true
+train:
+  _target_: src.data.components.low_cost_robot.LowCostRobotSingleArmPCDDataset
+  calib_file: 
+  split: train
+  root: data/teleop
+  task_name: ${task_name}
+  user_name: ${user_name}
+  leader_key: leader
+  follower_key: follower
+  camera_serials:
+    - "023322060111"
+    - "013422060628"
+  chunk_size: 20
+  eps: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+  loop: 1
+  pcd_range:
+    - [-0.15, 0.27] # xmin, xmax
+    - [-0.5, 0.1] # ymin, ymax
+    - [-0.5, -0.0075]  # zmin, zmax
+  random_range_factor: [0.01, 0.01, 0.005]
+  transform_pcd:
+    - _target_: src.data.components.transformpcd.GridSamplePCD
+      grid_size: 0.005
+      hash_type: fnv
+      mode: train
+      return_grid_coord: true
+      return_displacement: false
+      keys:
+        - coord
+        - color
+    - _target_: src.data.components.transformpcd.NormalizeColorPCD
+    - _target_: src.data.components.transformpcd.ShufflePointPCD
+    - _target_: src.data.components.transformpcd.ToTensorPCD
+    - _target_: src.data.components.transformpcd.CollectPCD
+      keys:
+        - coord
+        - grid_coord
+      feat_keys:
+        - color
+        - coord
+
+val:
+  _target_: src.data.components.low_cost_robot.LowCostRobotSingleArmPCDDataset
+  calib_file: ${data.train.calib_file}
+  split: val
+  root: ${data.train.root}
+  task_name: ${task_name}
+  user_name: ${user_name}
+  leader_key: leader
+  follower_key: follower
+  camera_serials: ${data.train.camera_serials}
+  chunk_size: ${data.train.chunk_size}
+  eps: [0, 10, 20, 30, 40]
+  loop: 1
+  pcd_range: ${data.train.pcd_range}
+  random_range_factor: [0, 0, 0]
+  transform_pcd:
+    - _target_: src.data.components.transformpcd.GridSamplePCD
+      grid_size: 0.005
+      hash_type: fnv
+      mode: train
+      return_grid_coord: true
+      return_displacement: false
+      keys:
+        - coord
+        - color
+    - _target_: src.data.components.transformpcd.NormalizeColorPCD
+    - _target_: src.data.components.transformpcd.ShufflePointPCD
+    - _target_: src.data.components.transformpcd.ToTensorPCD
+    - _target_: src.data.components.transformpcd.CollectPCD
+      keys:
+        - coord
+        - grid_coord
+      feat_keys:
+        - color
+        - coord

@@ -1,0 +1,16 @@
+# @package _global_
+
+# specify here default configuration
+# order of defaults determines the order in which configs override each other
+defaults:
+  - _self_
+  - paths: default
+  - hydra: default
+  - extras: default
+  - camera: realsense
+
+tag: calib
+tags:
+  - ${tag}
+  
+visualize: true

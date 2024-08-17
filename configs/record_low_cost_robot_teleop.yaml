@@ -1,0 +1,22 @@
+# @package _global_
+
+# specify here default configuration
+# order of defaults determines the order in which configs override each other
+defaults:
+  - _self_
+  - paths: default
+  - hydra: teleop
+  - extras: default
+  - camera: realsense
+  - collector: teleop
+  - teleop: low_cost_robot_single_arm
+
+tag: teleop
+tags:
+  - ${tag}
+
+# task name, determines output directory path
+task_name: "reach_cube"
+user_name: "default"
+episode_id: 0
+

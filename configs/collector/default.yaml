@@ -1,0 +1,6 @@
+_target_: src.collector.base.CollectorBase
+
+data_path: ${paths.data_dir}/${task_name}/${user_name}
+shm_manager_cfg:
+  - ${camera.shm_manager}
+  

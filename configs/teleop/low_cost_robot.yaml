@@ -1,0 +1,46 @@
+_target_: src.robots.low_cost_robot.teleop.DualArmTeleOperator
+
+op_left:
+  _target_: src.robots.low_cost_robot.teleop.SingleArmTeleOperator
+  leader:
+    _target_: src.robots.low_cost_robot.low_cost_robot.LowCostRobot
+    shm_name: left_leader
+    frame_rate: 30
+    device_name: /dev/ttyUSB1
+    baudrate: 1_000_000
+    servo_ids: [1, 2, 3, 4, 5, 6]
+    use_pwm_reader: false
+  follower:
+    _target_: src.robots.low_cost_robot.low_cost_robot.LowCostRobot
+    shm_name: left_follower
+    frame_rate: 30
+    device_name: /dev/ttyUSB0
+    baudrate: 1_000_000
+    servo_ids: [1, 2, 3, 4, 5, 6]
+    use_pwm_reader: false
+  frame_rate: 50
+
+op_right:
+  _target_: src.robots.low_cost_robot.teleop.SingleArmTeleOperator
+  leader:
+    _target_: src.robots.low_cost_robot.low_cost_robot.LowCostRobot
+    shm_name: right_leader
+    frame_rate: 30
+    device_name: /dev/ttyUSB2
+    baudrate: 1_000_000
+    servo_ids: [1, 2, 3, 4, 5, 6]
+    use_pwm_reader: false
+  follower:
+    _target_: src.robots.low_cost_robot.low_cost_robot.LowCostRobot
+    shm_name: right_follower
+    frame_rate: 30
+    device_name: /dev/ttyUSB3
+    baudrate: 1_000_000
+    servo_ids: [1, 2, 3, 4, 5, 6]
+    use_pwm_reader: false
+  frame_rate: 50
+
+shm_manager:
+  names: ["left_leader", "left_follower", "right_leader", "right_follower"]
+  shapes: [[6,], [6,], [6,], [6,]]
+  dtypes: ["float", "float", "float", "float"]

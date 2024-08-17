@@ -1,0 +1,62 @@
+# @package _global_
+
+defaults:
+  - override /data: low_cost_robot_single_arm_pcd
+  - override /model: low_cost_robot_act_pcd_model
+  - override /trainer: ddp
+  - override /callbacks: default
+  - override /paths: default
+  - override /hydra: default
+
+  
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+hydra:
+  run:
+    dir: ${paths.log_dir}/${task_name}_${exp_name}/runs/${now:%Y-%m-%d}_${now:%H-%M-%S}
+  sweep:
+    dir: ${paths.log_dir}/${task_name}_${exp_name}/runs/${now:%Y-%m-%d}_${now:%H-%M-%S}
+    subdir: ''
+  job_logging:
+    handlers:
+      file:
+        # Incorporates fix from https://github.com/facebookresearch/hydra/pull/2242
+        filename: ${hydra.runtime.output_dir}/${tag}-${task_name}-${exp_name}.log
+
+exp_name: base_pcd
+
+data:
+  train:
+    loop: 500
+
+trainer:
+  devices: 4
+  max_epochs: 10
+  check_val_every_n_epoch: 1
+  accelerator: gpu
+  strategy: auto
+
+callbacks:
+  model_checkpoint:
+    monitor: val/loss
+    mode: min
+    filename: "epoch={epoch:03d}-val_loss={val/loss:.4f}"
+    save_top_k: 3
+  early_stopping: null
+
+model:
+  optimizer:
+    type: AdamW
+    lr: 0.00005
+    weight_decay: 0.05
+  lr_scheduler:
+    scheduler:
+      type: OneCycleLR
+      max_lr: ${model.optimizer.lr}
+      pct_start: 0.1
+      anneal_strategy: cos
+      div_factor: 10.0
+      final_div_factor: 100.0
+    interval: step
+    frequency: 1
