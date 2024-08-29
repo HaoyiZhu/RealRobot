@@ -2,17 +2,28 @@
 
 Open-source implementations on real robots. This repository is currently under active development.
 
-This repository also contains real-world experiments of [PointCloudMatters](https://github.com/HaoyiZhu/PointCloudMatters).
+This repository also contains real-world experiments of [PointCloudMatters](https://github.com/HaoyiZhu/PointCloudMatters), whose videos can be found [here](https://drive.google.com/drive/folders/1UiFgHv9QUPEM2is-N10IJ47DjeYiiFEm?usp=drive_link).
 
 
 ## :clipboard: Contents
 
+- [Demos](#tv-demos)
 - [Installation](#hammer-installation)
 - [Quick Start](#sunglasses-quick-start)
 - [TODO](#date-todo)
 - [License](#books-license)
 - [Acknowledgement](#sparkles-acknowledgement)
 - [Citation](#pencil-citation)
+
+## :tv: Demos
+
+### Low Cost Robot
+
+The videos are all done automatically by learned policies.
+
+| Pick Cube | Fold Cloth |
+|--------|--------|
+| ![Task 1](./asserts/demos/low_cost_robot/pick_cube.gif) | ![Task 2](./asserts/demos/low_cost_robot/fold_cloth.gif) | 
 
 
 ## :hammer: Installation
