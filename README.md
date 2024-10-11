@@ -2,7 +2,24 @@
 
 Open-source implementations on real robots. This repository is currently under active development.
 
-This repository also contains real-world experiments of [PointCloudMatters](https://github.com/HaoyiZhu/PointCloudMatters), whose videos can be found [here](https://drive.google.com/drive/folders/1UiFgHv9QUPEM2is-N10IJ47DjeYiiFEm?usp=drive_link).
+This repository also contains the real-world implementation of the following paper:
+
+- **SPA: 3D Spatial-Awareness Enables Effective Embodied Representation**
+
+    Haoyi Zhu, Honghui Yang, Yating Wang, Jiange Yang, Limin Wang, Tong He
+
+    arXiv preprint, 2024
+
+    [ [Project Page](https://haoyizhu.github.io/spa/) ] | [ [arXiv](https://arxiv.org/abs/2410.08208) ] | [ [Github](https://github.com/HaoyiZhu/SPA) ]
+
+- **Point Cloud Matters: Rethinking the Impact of Different Observation Spaces on Robot Learning**
+    
+    Haoyi Zhu, Yating Wang, Di Huang, Weicai Ye, Wanli Ouyang, Tong He
+
+    Neural Information Processing Systems (**NeurIPS**) Dataset & Benchmark, 2024
+
+    [ [Project Page](https://haoyizhu.github.io/pcm/) ] | [ [arXiv](https://arxiv.org/abs/2402.02500) ] | [ [GitHub](https://github.com/HaoyiZhu/PointCloudMatters) ] | [ [Videos](https://drive.google.com/drive/folders/1UiFgHv9QUPEM2is-N10IJ47DjeYiiFEm?usp=drive_link) ]
+
 
 
 ## :clipboard: Contents
@@ -21,9 +38,9 @@ This repository also contains real-world experiments of [PointCloudMatters](http
 
 The videos are all done automatically by learned policies.
 
-| Pick Cube | Fold Cloth |
-|--------|--------|
-| ![Task 1](./asserts/demos/low_cost_robot/pick_cube.gif) | ![Task 2](./asserts/demos/low_cost_robot/fold_cloth.gif) | 
+| Pick Cube | Stack Cube | Fold Cloth |
+| --------- | ---------- | ----------- |
+| <img src="./asserts/demos/low_cost_robot/pick.gif" alt="Pick" height="200"> | <img src="./asserts/demos/low_cost_robot/stack.gif" alt="Stack" height="200"> | <img src="./asserts/demos/low_cost_robot/fold.gif" alt="Fold" height="200"> |
 
 
 ## :hammer: Installation
