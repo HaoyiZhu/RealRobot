@@ -1,14 +1,12 @@
 import copy
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Union
 
 import pointops
 import torch
 import torch.nn as nn
-import torchvision
-from einops import pack, rearrange, reduce, repeat, unpack
+from einops import rearrange
 
 from src.utils.diffusion_policy import ModuleAttrMixin
-from src.utils.pytorch_utils import dict_apply
 
 
 class PCDObsEncoder(ModuleAttrMixin):

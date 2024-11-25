@@ -247,7 +247,7 @@ class RandomScalePCD(object):
                 data_dict[key][i] = data_dict[key][i] @ S
 
         if "depth_scale" in data_dict.keys():
-            assert not self.anisotropic, f"anisotropic not supported yet."
+            assert not self.anisotropic, "anisotropic not supported yet."
             data_dict["depth_scale"] *= scale
         return data_dict
 
@@ -498,7 +498,7 @@ class RandomColorJitterPCD(object):
             raise ValueError(
                 "contrast_factor ({}) is not non-negative.".format(contrast_factor)
             )
-        mean = np.mean(RandomColorGrayScale.rgb_to_grayscale(color))
+        mean = np.mean(RandomColorGrayScalePCD.rgb_to_grayscale(color))
         return self.blend(color, mean, contrast_factor)
 
     def adjust_saturation(self, color, saturation_factor):
@@ -506,7 +506,7 @@ class RandomColorJitterPCD(object):
             raise ValueError(
                 "saturation_factor ({}) is not non-negative.".format(saturation_factor)
             )
-        gray = RandomColorGrayScale.rgb_to_grayscale(color)
+        gray = RandomColorGrayScalePCD.rgb_to_grayscale(color)
         return self.blend(color, gray, saturation_factor)
 
     def adjust_hue(self, color, hue_factor):
@@ -632,13 +632,13 @@ class HueSaturationTranslationPCD(object):
     def __call__(self, data_dict):
         if "color" in data_dict.keys():
             # Assume color[:, :3] is rgb
-            hsv = HueSaturationTranslation.rgb_to_hsv(data_dict["color"][:, :3])
+            hsv = HueSaturationTranslationPCD.rgb_to_hsv(data_dict["color"][:, :3])
             hue_val = (np.random.rand() - 0.5) * 2 * self.hue_max
             sat_ratio = 1 + (np.random.rand() - 0.5) * 2 * self.saturation_max
             hsv[..., 0] = np.remainder(hue_val + hsv[..., 0] + 1, 1)
             hsv[..., 1] = np.clip(sat_ratio * hsv[..., 1], 0, 1)
             data_dict["color"][:, :3] = np.clip(
-                HueSaturationTranslation.hsv_to_rgb(hsv), 0, 255
+                HueSaturationTranslationPCD.hsv_to_rgb(hsv), 0, 255
             )
         return data_dict
 

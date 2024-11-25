@@ -48,9 +48,7 @@ def grouping(idx, feat, xyz, new_xyz=None, with_xyz=False):
         mask = torch.sign(idx + 1)
         grouped_xyz = xyz[idx.view(-1).long(), :].view(
             m, nsample, 3
-        ) - new_xyz.unsqueeze(
-            1
-        )  # (m, num_sample, 3)
+        ) - new_xyz.unsqueeze(1)  # (m, num_sample, 3)
         grouped_xyz = torch.einsum(
             "n s c, n s -> n s c", grouped_xyz, mask
         )  # (m, num_sample, 3)

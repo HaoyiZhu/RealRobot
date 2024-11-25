@@ -141,10 +141,12 @@ class RealSenseRGBDCamera(CameraBase):
         )
         if marker_ids is not None and len(marker_ids) > 0:
             cv2.aruco.drawDetectedMarkers(gray, marker_corners, marker_ids)
-            charuco_retval, charuco_corners, charuco_ids = (
-                cv2.aruco.interpolateCornersCharuco(
-                    marker_corners, marker_ids, gray, board
-                )
+            (
+                charuco_retval,
+                charuco_corners,
+                charuco_ids,
+            ) = cv2.aruco.interpolateCornersCharuco(
+                marker_corners, marker_ids, gray, board
             )
             assert charuco_retval, "Charuco corners not found."
 
@@ -167,7 +169,6 @@ class RealSenseRGBDCamera(CameraBase):
         extrinsic_matrix = np.vstack((extrinsic_matrix, np.array([0, 0, 0, 1])))
 
         if visualize:
-
             from src.utils.pointcloud_utils import rgbd_to_pointcloud
 
             cv2.drawFrameAxes(

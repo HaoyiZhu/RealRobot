@@ -1,6 +1,4 @@
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 class KLDivergence(nn.Module):
@@ -20,7 +18,7 @@ class KLDivergence(nn.Module):
 
         klds = -0.5 * (1 + logvar - mu.pow(2) - logvar.exp())
         total_kld = klds.sum(1).mean(0, True)
-        dimension_wise_kld = klds.mean(0)
-        mean_kld = klds.mean(1).mean(0, True)
+        # dimension_wise_kld = klds.mean(0)
+        # mean_kld = klds.mean(1).mean(0, True)
 
         return total_kld[0]  # , dimension_wise_kld, mean_kld

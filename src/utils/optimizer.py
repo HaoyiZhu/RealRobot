@@ -1,10 +1,9 @@
 import collections.abc
-import math
 import re
 from collections import defaultdict
 from copy import deepcopy
 from itertools import chain, islice
-from typing import Any, Callable, Dict, Iterator, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, Iterator, Optional, Tuple, Union
 
 import torch
 import torch.nn as nn
@@ -197,7 +196,7 @@ def _layer_map(model, layers_per_group=12, num_groups=None):
     names_trunk = list(_group(names_trunk, layers_per_group))
 
     num_trunk_groups = len(names_trunk)
-    layer_map = {n: i for i, l in enumerate(names_trunk) for n in l}
+    layer_map = {n: i for i, layer in enumerate(names_trunk) for n in layer}
     layer_map.update({n: num_trunk_groups for n in names_head})
     return layer_map
 

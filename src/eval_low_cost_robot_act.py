@@ -3,14 +3,17 @@ from __future__ import annotations
 import os
 import time
 from collections import defaultdict
-from typing import Any, Dict, Optional, Tuple
 
 import hydra
 import imageio.v3 as iio
+import logging
+
+
 import lightning as L
 import numpy as np
 import rootutils
 import torch
+from pynput import keyboard
 from einops import rearrange
 from lightning import LightningModule
 from omegaconf import DictConfig, OmegaConf
@@ -35,9 +38,11 @@ rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 # more info: https://github.com/ashleve/rootutils
 # ------------------------------------------------------------------------------------ #
 
-from src.data.components.transformpcd import ComposePCD
-from src.utils import RankedLogger, extras, point_collate_fn
-from src.utils.pointcloud_utils import rgbd_to_pointcloud
+from src.data.components.transformpcd import ComposePCD  # noqa: E402
+from src.utils import RankedLogger, extras, point_collate_fn  # noqa: E402
+from src.utils.pointcloud_utils import rgbd_to_pointcloud  # noqa: E402
+
+logging.getLogger("imageio").setLevel(logging.ERROR)
 
 log = RankedLogger(__name__, rank_zero_only=True)
 
@@ -91,13 +96,13 @@ def eval(cfg: DictConfig):
     time.sleep(2)
 
     # load preprocessing and postprocessing functions
-    pre_process = (
-        lambda s_qpos: ((s_qpos / 2048 - 1) - norm_stats["qpos_mean"])
-        / norm_stats["qpos_std"]
-    )
-    post_process = lambda a: (
-        ((a * norm_stats["action_std"] + norm_stats["action_mean"]) + 1) * 2048
-    ).astype(int)
+    def pre_process(s_qpos):
+        return ((s_qpos / 2048 - 1) - norm_stats["qpos_mean"]) / norm_stats["qpos_std"]
+
+    def post_process(a):
+        return (
+            ((a * norm_stats["action_std"] + norm_stats["action_mean"]) + 1) * 2048
+        ).astype(int)
 
     # load eval constants
     max_timesteps = cfg.max_timesteps
@@ -113,7 +118,25 @@ def eval(cfg: DictConfig):
     crop_info = cfg.data.train.get("crop_info")
     num_rollouts = cfg.num_rollouts
 
+    def _on_press(key):
+        global has_stop
+        try:
+            if key.char == "q":
+                if not has_stop:
+                    robot.reset()
+                    has_stop = True
+        except AttributeError:
+            pass
+
+    def _on_release(key):
+        pass
+
     for rollout_idx in range(num_rollouts):
+        global has_stop
+        has_stop = False
+
+        listener = keyboard.Listener(on_press=_on_press, on_release=_on_release)
+
         if cfg.save_video:
             videos = defaultdict(list)
             save_foler = os.path.join(cfg.paths.output_dir, "videos")
@@ -122,8 +145,14 @@ def eval(cfg: DictConfig):
         robot.reset()
         log.info(f"Rollout: {rollout_idx} will start in 5 seconds")
         time.sleep(5)
+        listener.start()
+        log.info(
+            "Press 'q' to stop the current rollout and reset the robot for the next rollout."
+        )
         try:
             for t in range(max_timesteps):
+                if has_stop:
+                    break
                 start_time = time.time()
                 imgs = camera.get_state(
                     depth=cfg.data.train.get("include_depth") or use_pcd
@@ -268,7 +297,12 @@ def eval(cfg: DictConfig):
                     time.sleep(step_time - duration)
 
         except KeyboardInterrupt:
+            listener.stop()
             log.info("KeyboardInterrupt")
+            time.sleep(0.2)
+            robot.reset()
+
+        listener.stop()
 
         if cfg.save_video:
             for key, value in videos.items():

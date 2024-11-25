@@ -1,12 +1,6 @@
 from __future__ import annotations
-
-"""
-Reference:
-- https://github.com/tonyzhaozh/act
-"""
-
 import copy
-from typing import List, Optional
+from typing import Optional
 
 import torch
 import torch.nn.functional as F

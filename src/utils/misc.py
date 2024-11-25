@@ -141,6 +141,8 @@ class TemporalAgg:
 
 
 def build_clip_model(clip_model: str = "ViT-B/16"):
+    import clip
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     clip_model, _ = clip.load(clip_model, device=device, download_root="./.cache/clip")
     clip_model.requires_grad_(False)

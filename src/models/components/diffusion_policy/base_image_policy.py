@@ -6,7 +6,6 @@ Reference:
 from typing import Dict
 
 import torch
-import torch.nn as nn
 
 from src.utils.diffusion_policy import LinearNormalizer, ModuleAttrMixin
 

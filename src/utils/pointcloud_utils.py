@@ -1,11 +1,10 @@
 from typing import Optional, Tuple
 
-import cv2
 import numpy as np
 
 try:
     import open3d as o3d
-except:
+except ImportError:
     print("open3d not imported")
 
 

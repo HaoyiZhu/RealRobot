@@ -218,7 +218,7 @@ Evaluate reach cube with point cloud:
 python src/eval_low_cost_robot_act.py task_name=reach_cube max_timesteps=150 num_rollouts=20 exp_low_cost_robot=base_pcd data.train.calib_file=data/calib/reach.npy ckpt_path=${ckpt_path} num_rollouts=${num_rollouts}
 ```
 
-The script will evaluate the given checkpoint with `${num_rollouts}` repeats. You can early stop one episode by press `Ctrl + C`.
+The script will evaluate the given checkpoint with `${num_rollouts}` repeats. You can early stop one episode by press `q`.
 
 </details>
 
@@ -232,7 +232,7 @@ The script will evaluate the given checkpoint with `${num_rollouts}` repeats. Yo
 - [ ] Add More Robots (Coming soon, stay tuned!)
 - [ ] Add policies
     - [x] ACT
-    - [ ] Diffusion Policy
+    - [x] Diffusion Policy
 
 ## :tada: Gotchas
 

@@ -18,7 +18,7 @@ class CameraBase:
         shm_name_rgb: str = None,
         shm_name_depth: str = None,
         frame_rate: int = 30,
-        **kwargs
+        **kwargs,
     ):
         self.logger = RankedLogger(__name__, rank_zero_only=True)
         self.frame_rate = frame_rate

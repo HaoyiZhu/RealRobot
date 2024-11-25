@@ -1,4 +1,3 @@
-import logging
 from typing import Optional, Tuple, Union
 
 import torch
@@ -251,13 +250,13 @@ class TransformerForDiffusion(ModuleAttrMixin):
         param_dict = {pn: p for pn, p in self.named_parameters()}
         inter_params = decay & no_decay
         union_params = decay | no_decay
-        assert (
-            len(inter_params) == 0
-        ), "parameters %s made it into both decay/no_decay sets!" % (str(inter_params),)
-        assert (
-            len(param_dict.keys() - union_params) == 0
-        ), "parameters %s were not separated into either decay/no_decay set!" % (
-            str(param_dict.keys() - union_params),
+        assert len(inter_params) == 0, (
+            "parameters %s made it into both decay/no_decay sets!"
+            % (str(inter_params),)
+        )
+        assert len(param_dict.keys() - union_params) == 0, (
+            "parameters %s were not separated into either decay/no_decay set!"
+            % (str(param_dict.keys() - union_params),)
         )
 
         # create the pytorch optimizer object
@@ -288,7 +287,7 @@ class TransformerForDiffusion(ModuleAttrMixin):
         sample: torch.Tensor,
         timestep: Union[torch.Tensor, float, int],
         cond: Optional[torch.Tensor] = None,
-        **kwargs
+        **kwargs,
     ):
         """
         x: (B,T,input_dim)
@@ -360,75 +359,3 @@ class TransformerForDiffusion(ModuleAttrMixin):
         x = self.head(x)
         # (B,T,n_out)
         return x
-
-
-def test():
-    # GPT with time embedding
-    transformer = TransformerForDiffusion(
-        input_dim=16,
-        output_dim=16,
-        horizon=8,
-        n_obs_steps=4,
-        # cond_dim=10,
-        causal_attn=True,
-        # time_as_cond=False,
-        # n_cond_layers=4
-    )
-    opt = transformer.configure_optimizers()
-
-    timestep = torch.tensor(0)
-    sample = torch.zeros((4, 8, 16))
-    out = transformer(sample, timestep)
-
-    # GPT with time embedding and obs cond
-    transformer = TransformerForDiffusion(
-        input_dim=16,
-        output_dim=16,
-        horizon=8,
-        n_obs_steps=4,
-        cond_dim=10,
-        causal_attn=True,
-        # time_as_cond=False,
-        # n_cond_layers=4
-    )
-    opt = transformer.configure_optimizers()
-
-    timestep = torch.tensor(0)
-    sample = torch.zeros((4, 8, 16))
-    cond = torch.zeros((4, 4, 10))
-    out = transformer(sample, timestep, cond)
-
-    # GPT with time embedding and obs cond and encoder
-    transformer = TransformerForDiffusion(
-        input_dim=16,
-        output_dim=16,
-        horizon=8,
-        n_obs_steps=4,
-        cond_dim=10,
-        causal_attn=True,
-        # time_as_cond=False,
-        n_cond_layers=4,
-    )
-    opt = transformer.configure_optimizers()
-
-    timestep = torch.tensor(0)
-    sample = torch.zeros((4, 8, 16))
-    cond = torch.zeros((4, 4, 10))
-    out = transformer(sample, timestep, cond)
-
-    # BERT with time embedding token
-    transformer = TransformerForDiffusion(
-        input_dim=16,
-        output_dim=16,
-        horizon=8,
-        n_obs_steps=4,
-        # cond_dim=10,
-        # causal_attn=True,
-        time_as_cond=False,
-        # n_cond_layers=4
-    )
-    opt = transformer.configure_optimizers()
-
-    timestep = torch.tensor(0)
-    sample = torch.zeros((4, 8, 16))
-    out = transformer(sample, timestep)

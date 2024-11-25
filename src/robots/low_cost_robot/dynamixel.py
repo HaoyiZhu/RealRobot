@@ -3,9 +3,10 @@ from __future__ import annotations
 import enum
 import math
 import os
+import time
 from dataclasses import dataclass
 
-from dynamixel_sdk import *  # Uses Dynamixel SDK library
+from dynamixel_sdk import Config, PortHandler, PacketHandler, COMM_SUCCESS
 
 
 class ReadAttribute(enum.Enum):
@@ -233,10 +234,10 @@ class Dynamixel:
         )
         self._process_response(dxl_comm_result, dxl_error, motor_id)
 
-    def set_I(self, motor_id: int, I: int):
+    def set_I(self, motor_id: int, I_gain: int):
         """Set the position I gain of the motor."""
         dxl_comm_result, dxl_error = self.packetHandler.write2ByteTxRx(
-            self.portHandler, motor_id, self.POSITION_I, I
+            self.portHandler, motor_id, self.POSITION_I, I_gain
         )
         self._process_response(dxl_comm_result, dxl_error, motor_id)
 

@@ -6,10 +6,9 @@ Reference:
 from typing import Dict
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 from diffusers.schedulers.scheduling_ddpm import DDPMScheduler
-from einops import rearrange, reduce
+from einops import reduce
 
 from src.utils.diffusion_policy import LinearNormalizer
 from src.utils.pytorch_utils import dict_apply
@@ -157,7 +156,7 @@ class DiffusionUnetImagePolicy(BaseImagePolicy):
             pcds = None
             if "pcds" in obs_dict:
                 pcds = obs_dict.pop("pcds")
-            nbos = self.normalizer.normalize(obs_dict)
+            nobs = self.normalizer.normalize(obs_dict)
         else:
             pcds = None
             if "pcds" in obs_dict["obs"]:
@@ -168,7 +167,6 @@ class DiffusionUnetImagePolicy(BaseImagePolicy):
         B, To = value.shape[:2]
         T = self.horizon
         Da = self.action_dim
-        Do = self.obs_feature_dim
         To = self.n_obs_steps
 
         # build input
@@ -239,7 +237,6 @@ class DiffusionUnetImagePolicy(BaseImagePolicy):
         nobs = self.normalizer.normalize(batch["obs"])
         nactions = self.normalizer["action"].normalize(batch["action"])
         batch_size = nactions.shape[0]
-        horizon = nactions.shape[1]
 
         # handle different ways of passing observation
         local_cond = None

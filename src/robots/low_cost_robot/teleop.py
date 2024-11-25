@@ -18,7 +18,7 @@ class SingleArmTeleOperator:
         leader: LowCostRobot,
         follower: LowCostRobot,
         frame_rate: int = 30,
-        **kwargs
+        **kwargs,
     ):
         self.logger = RankedLogger(__name__, rank_zero_only=True)
 

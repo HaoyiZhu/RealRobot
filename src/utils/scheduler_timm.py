@@ -1,10 +1,8 @@
 import abc
-import logging
 import math
 from abc import ABC
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional
 
-import numpy as np
 import torch
 from torch.optim import Optimizer
 
@@ -294,9 +292,6 @@ def build_scheduler_v2(
         t_initial = t_initial * updates_per_epoch
         warmup_t = warmup_t * updates_per_epoch
         decay_t = decay_t * updates_per_epoch
-        decay_milestones = [
-            d * updates_per_epoch for d in cfg.get("decay_milestones", (90, 180, 270))
-        ]
         cooldown_t = cooldown_t * updates_per_epoch
 
     # warmup args

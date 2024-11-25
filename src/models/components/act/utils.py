@@ -1,9 +1,4 @@
 from __future__ import annotations
-
-"""
-Reference:
-- https://github.com/tonyzhaozh/act
-"""
 from typing import Optional
 
 import numpy as np

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import warnings
 from importlib.util import find_spec
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Optional
 
 from omegaconf import DictConfig
 

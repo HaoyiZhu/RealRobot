@@ -5,12 +5,9 @@ Reference:
 
 from __future__ import annotations
 
-from collections import OrderedDict
-from collections.abc import Mapping
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import torch
-import torch.nn.functional as F
 import torchvision
 from torch import nn
 from torchvision.models._utils import IntermediateLayerGetter
@@ -137,9 +134,9 @@ class Joiner(nn.Sequential):
                 bias=False,
             )
             if pretrained:
-                conv1.weight.data[:, :3, :, :] = (
-                    backbone.resnet_film_model.conv1.weight.data
-                )
+                conv1.weight.data[
+                    :, :3, :, :
+                ] = backbone.resnet_film_model.conv1.weight.data
             backbone.resnet_film_model.conv1 = conv1
 
         self.num_channels = backbone.num_channels

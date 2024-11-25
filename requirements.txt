@@ -27,3 +27,4 @@ pynput
 imageio[ffmpeg]
 gdown
 timm==0.9.10
+pre-commit

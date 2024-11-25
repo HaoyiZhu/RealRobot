@@ -27,7 +27,7 @@ rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 # more info: https://github.com/ashleve/rootutils
 # ------------------------------------------------------------------------------------ #
 
-from src.utils import RankedLogger, clear_shared_memory
+from src.utils import RankedLogger, clear_shared_memory  # noqa: E402
 
 log = RankedLogger(__name__, rank_zero_only=True)
 

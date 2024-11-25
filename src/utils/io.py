@@ -1,8 +1,6 @@
 import json
-import logging
 import os
 import pickle
-from io import BytesIO
 
 import cv2
 import h5py
@@ -40,7 +38,7 @@ def load_numpy_pickle(filename):
 
     try:
         return array.item()
-    except:
+    except Exception:
         return array
 
 

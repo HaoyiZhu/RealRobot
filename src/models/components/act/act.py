@@ -180,7 +180,6 @@ class ACT(nn.Module):
         qpos = data_dict["qpos"]
         image = data_dict["image"]
         env_state = data_dict.get("env_state", None)
-        actions = data_dict.get("actions", None)
         latent_input = data_dict["latent_input"]
 
         if self.goal_cond_dim > 0:
@@ -543,7 +542,6 @@ class ACTPCD(ACT):
         qpos = data_dict["qpos"]
         pcd_dict = data_dict["pcds"]
         env_state = data_dict.get("env_state", None)
-        actions = data_dict.get("actions", None)
         latent_input = data_dict["latent_input"]
 
         if self.goal_cond_dim > 0:

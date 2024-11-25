@@ -14,15 +14,13 @@ import urllib
 from functools import partial
 from os.path import expanduser
 
-import hydra
 import numpy as np
-import omegaconf
 import six
 import timm.models.vision_transformer
 import torch
 import torch.nn as nn
 import torchvision.transforms as T
-from timm.models.vision_transformer import Block, PatchEmbed, resize_pos_embed
+from timm.models.vision_transformer import Block, resize_pos_embed
 
 VC1_BASE_NAME = "vc1_vitb"
 VC1_LARGE_NAME = "vc1_vitl"

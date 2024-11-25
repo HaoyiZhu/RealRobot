@@ -1,4 +1,3 @@
-import logging
 from typing import Union
 
 import einops
@@ -228,7 +227,7 @@ class ConditionalUnet1D(nn.Module):
         timestep: Union[torch.Tensor, float, int],
         local_cond=None,
         global_cond=None,
-        **kwargs
+        **kwargs,
     ):
         """
         x: (B,T,input_dim)

@@ -11,7 +11,7 @@ import torch.nn as nn
 import torchvision
 
 from src.utils.diffusion_policy import ModuleAttrMixin
-from src.utils.pytorch_utils import dict_apply, replace_submodules
+from src.utils.pytorch_utils import replace_submodules
 
 from .crop_randomizer import CropRandomizer
 

@@ -1,23 +1,13 @@
 from __future__ import annotations
-
-"""
-Reference:
-- https://github.com/facebookresearch/r3m
-"""
-import copy
 import math
 import os
 from collections import OrderedDict
 from os.path import expanduser
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Dict
 
 import gdown
-import hydra
-import omegaconf
-import timm
 import torch
 import torch.nn as nn
-import torchvision
 from torchvision import transforms
 
 import src.utils as U

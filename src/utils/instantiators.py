@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List
 
 import hydra
 from lightning import Callback

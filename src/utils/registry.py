@@ -2,7 +2,7 @@ import inspect
 import warnings
 from functools import partial
 
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 
 from .misc import is_seq_of
 
